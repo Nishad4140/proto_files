@@ -23,6 +23,10 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type UserServiceClient interface {
 	UserSignUp(ctx context.Context, in *UserSignUpRequest, opts ...grpc.CallOption) (*UserResponse, error)
+	UserLogin(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*UserResponse, error)
+	AdminLogin(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*UserResponse, error)
+	SupAdminLogin(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*UserResponse, error)
+	AddAdmin(ctx context.Context, in *UserSignUpRequest, opts ...grpc.CallOption) (*UserResponse, error)
 }
 
 type userServiceClient struct {
@@ -42,11 +46,51 @@ func (c *userServiceClient) UserSignUp(ctx context.Context, in *UserSignUpReques
 	return out, nil
 }
 
+func (c *userServiceClient) UserLogin(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*UserResponse, error) {
+	out := new(UserResponse)
+	err := c.cc.Invoke(ctx, "/user.UserService/UserLogin", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) AdminLogin(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*UserResponse, error) {
+	out := new(UserResponse)
+	err := c.cc.Invoke(ctx, "/user.UserService/AdminLogin", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) SupAdminLogin(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*UserResponse, error) {
+	out := new(UserResponse)
+	err := c.cc.Invoke(ctx, "/user.UserService/SupAdminLogin", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) AddAdmin(ctx context.Context, in *UserSignUpRequest, opts ...grpc.CallOption) (*UserResponse, error) {
+	out := new(UserResponse)
+	err := c.cc.Invoke(ctx, "/user.UserService/AddAdmin", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServiceServer is the server API for UserService service.
 // All implementations must embed UnimplementedUserServiceServer
 // for forward compatibility
 type UserServiceServer interface {
 	UserSignUp(context.Context, *UserSignUpRequest) (*UserResponse, error)
+	UserLogin(context.Context, *LoginRequest) (*UserResponse, error)
+	AdminLogin(context.Context, *LoginRequest) (*UserResponse, error)
+	SupAdminLogin(context.Context, *LoginRequest) (*UserResponse, error)
+	AddAdmin(context.Context, *UserSignUpRequest) (*UserResponse, error)
 	mustEmbedUnimplementedUserServiceServer()
 }
 
@@ -56,6 +100,18 @@ type UnimplementedUserServiceServer struct {
 
 func (UnimplementedUserServiceServer) UserSignUp(context.Context, *UserSignUpRequest) (*UserResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UserSignUp not implemented")
+}
+func (UnimplementedUserServiceServer) UserLogin(context.Context, *LoginRequest) (*UserResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UserLogin not implemented")
+}
+func (UnimplementedUserServiceServer) AdminLogin(context.Context, *LoginRequest) (*UserResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AdminLogin not implemented")
+}
+func (UnimplementedUserServiceServer) SupAdminLogin(context.Context, *LoginRequest) (*UserResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SupAdminLogin not implemented")
+}
+func (UnimplementedUserServiceServer) AddAdmin(context.Context, *UserSignUpRequest) (*UserResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddAdmin not implemented")
 }
 func (UnimplementedUserServiceServer) mustEmbedUnimplementedUserServiceServer() {}
 
@@ -88,6 +144,78 @@ func _UserService_UserSignUp_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserService_UserLogin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LoginRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).UserLogin(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/user.UserService/UserLogin",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).UserLogin(ctx, req.(*LoginRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_AdminLogin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LoginRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).AdminLogin(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/user.UserService/AdminLogin",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).AdminLogin(ctx, req.(*LoginRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_SupAdminLogin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LoginRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).SupAdminLogin(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/user.UserService/SupAdminLogin",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).SupAdminLogin(ctx, req.(*LoginRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_AddAdmin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserSignUpRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).AddAdmin(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/user.UserService/AddAdmin",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).AddAdmin(ctx, req.(*UserSignUpRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // UserService_ServiceDesc is the grpc.ServiceDesc for UserService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -98,6 +226,22 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UserSignUp",
 			Handler:    _UserService_UserSignUp_Handler,
+		},
+		{
+			MethodName: "UserLogin",
+			Handler:    _UserService_UserLogin_Handler,
+		},
+		{
+			MethodName: "AdminLogin",
+			Handler:    _UserService_AdminLogin_Handler,
+		},
+		{
+			MethodName: "SupAdminLogin",
+			Handler:    _UserService_SupAdminLogin_Handler,
+		},
+		{
+			MethodName: "AddAdmin",
+			Handler:    _UserService_AddAdmin_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
