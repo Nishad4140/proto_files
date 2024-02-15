@@ -5,10 +5,40 @@ package cart;
 option go_package = "./pb";
 
 service OrderService {
-    rpc OrderAll(OrderId) returns (OrderId);
+    rpc OrderAll(UserId) returns (OrderId);
     rpc CancelOrder(OrderId) returns (OrderId);
+    rpc ChangeOrderStatus(ChangeStatusRequest) returns (OrderId);
+    rpc GetAllOrdersUser(UserId) returns (stream GetAllOrdersResponse){}
+    rpc GetAllOrders(NoParam) returns (stream GetAllOrdersResponse){}
+    rpc GetOrder(OrderId) returns (GetAllOrdersResponse);
+}
+
+message UserId {
+    uint32 userId = 1;
 }
 
 message OrderId {
-    int32 Id = 1;
+    uint32 orderId = 1;
 }
+
+message ChangeStatusRequest {
+    uint32 orderId = 1;
+    uint32 statusId = 2;
+}
+
+message OrderItems {
+    uint32 id = 1;
+    uint32 orderId = 2;
+    int32 quantity = 3;
+    double total = 4;
+}
+
+message GetAllOrdersResponse {
+    uint32 orderId = 1;
+    uint32 addressId = 2;
+    uint32 paymentTypeId = 3;
+    uint32 orderStatusId = 4;
+    repeated OrderItems orderItems = 5;
+}
+
+message NoParam{}
