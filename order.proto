@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package cart;
+
+option go_package = "./pb";
+
+service OrderService {
+    rpc OrderAll(OrderId) returns (OrderId);
+    rpc CancelOrder(OrderId) returns (OrderId);
+}
+
+message OrderId {
+    int32 Id = 1;
+}
