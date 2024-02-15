@@ -7,6 +7,9 @@ option go_package = "./pb";
 service CartService {
     rpc CreateCart(CartCreate) returns (CartResponse);
     rpc AddToCart(AddToCartRequest) returns (CartResponse);
+    rpc GetAllCart(CartCreate) returns (stream CartResponse);
+    rpc RemoveCart(RemoveCartRequest) returns (CartResponse);
+
 }
 
 message CartCreate {
@@ -23,4 +26,9 @@ message AddToCartRequest {
     uint32 userId = 1;
     uint32 prodId = 2;
     int32 quantity = 3;
+}
+
+message RemoveCartRequest {
+    uint32 userId = 1;
+    uint32 prodId = 2;
 }
