@@ -9,7 +9,7 @@ import "google/protobuf/empty.proto";
 service ProductService {
     rpc AddProduct(AddProductRequest) returns (AddProductResponse);
     rpc GetProduct(GetProductByID) returns (AddProductResponse);
-    rpc GetAllProducts(google.protobuf.Empty) returns (stream AddProductResponse);
+    rpc GetAllProducts(google.protobuf.Empty) returns (stream AddProductResponse){}
     rpc UpdateStock(UpdateStockRequest) returns (AddProductResponse);
 }
 

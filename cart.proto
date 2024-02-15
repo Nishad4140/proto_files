@@ -4,12 +4,14 @@ package cart;
 
 option go_package = "./pb";
 
+import "google/protobuf/empty.proto";
+
 service CartService {
     rpc CreateCart(CartCreate) returns (CartResponse);
     rpc AddToCart(AddToCartRequest) returns (CartResponse);
     rpc GetAllCart(CartCreate) returns (stream GetAllCartResponse);
-    rpc RemoveCart(RemoveCartRequest) returns (CartResponse);
-
+    rpc RemoveCart(RemoveCartRequest) returns (CartResponse){}
+    rpc TruncateCart(CartCreate) returns (google.protobuf.Empty);
 }
 
 message CartCreate {
