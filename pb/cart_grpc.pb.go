@@ -70,7 +70,7 @@ func (c *cartServiceClient) GetAllCart(ctx context.Context, in *CartCreate, opts
 }
 
 type CartService_GetAllCartClient interface {
-	Recv() (*CartResponse, error)
+	Recv() (*GetAllCartResponse, error)
 	grpc.ClientStream
 }
 
@@ -78,8 +78,8 @@ type cartServiceGetAllCartClient struct {
 	grpc.ClientStream
 }
 
-func (x *cartServiceGetAllCartClient) Recv() (*CartResponse, error) {
-	m := new(CartResponse)
+func (x *cartServiceGetAllCartClient) Recv() (*GetAllCartResponse, error) {
+	m := new(GetAllCartResponse)
 	if err := x.ClientStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
@@ -180,7 +180,7 @@ func _CartService_GetAllCart_Handler(srv interface{}, stream grpc.ServerStream) 
 }
 
 type CartService_GetAllCartServer interface {
-	Send(*CartResponse) error
+	Send(*GetAllCartResponse) error
 	grpc.ServerStream
 }
 
@@ -188,7 +188,7 @@ type cartServiceGetAllCartServer struct {
 	grpc.ServerStream
 }
 
-func (x *cartServiceGetAllCartServer) Send(m *CartResponse) error {
+func (x *cartServiceGetAllCartServer) Send(m *GetAllCartResponse) error {
 	return x.ServerStream.SendMsg(m)
 }
 
